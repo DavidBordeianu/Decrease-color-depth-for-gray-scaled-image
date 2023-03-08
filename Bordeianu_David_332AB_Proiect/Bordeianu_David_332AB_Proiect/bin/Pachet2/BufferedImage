@@ -1,0 +1,43 @@
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.DirectColorModel;
+import java.awt.image.WritableRaster;
+
+public class MyBufferedImage {
+    private int width;
+    private int height;
+    private int[] pixels;
+    private ColorModel colorModel;
+    private WritableRaster raster;
+    private BufferedImage image;
+
+    public MyBufferedImage(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.pixels = new int[width * height];
+        this.colorModel = new DirectColorModel(32, 0xff0000, 0xff00, 0xff);
+        this.raster = colorModel.createCompatibleWritableRaster(width, height);
+        this.image = new BufferedImage(colorModel, raster, false, null);
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getRGB(int x, int y) {
+        return pixels[y * width + x];
+    }
+
+    public void setRGB(int x, int y, int rgb) {
+        pixels[y * width + x] = rgb;
+        raster.setPixel(x, y, new int[] {rgb});
+    }
+}
